@@ -1,91 +1,882 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <!-- Optional theme -->
+    <style>
+      .pricing-card {
+        border: none;
+        border-radius: 1rem;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .pricing-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      .pricing-header {
+        background: linear-gradient(45deg, #205375, #3595d6);
+        color: #fff;
+        padding: 2rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
 
-class GenerateBulanan extends AUTH_Controller {
-	public function __construct() {
-		parent::__construct();
-		$this->load->model('M_profile');
-		$this->load->model('M_tb_export_bulanan');
-		$this->load->model('M_bulan');
-		$this->load->model('M_unit_pembayar');
-		$this->load->library('postingBulanan');
-	}
+      .pricing-best {
+        background: linear-gradient(45deg, #ff2b2b, #890202);
+        color: #fff;
+        padding: 2rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
 
-	public function index() {
-		$data['userdata'] 	= $this->userdata;
-		$kd_satker 	= $data['userdata']->kd_satker;
-		$tahun = year_app($kd_satker);
-		$data['dataSatker'] = $this->M_profile->select_kd_satker();
-		$data['dataJenis'] = ['Gaji', 'Gaji Rapel', 'Tukin', 'PPNPN'];
-		$data['dataUnitKerja'] = $this->M_unit_pembayar->select_all();
-		$data['dataBulan'] = $this->M_bulan->select_all();
+      .pricing-premium {
+        background: linear-gradient(45deg, #eb0584d8, #89025e);
+        color: #fff;
+        padding: 2rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
+      .pricing-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+      }
+      .pricing-card ul li {
+        padding: 0.5rem 0;
+      }
+      .pricing-card ul li:not(:last-child) {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .price {
+        font-size: 2rem;
+        color: #fff;
+      }
+      .term {
+        font-size: 1rem;
+        color: #fff;
+      }
+      .btn-pricing {
+        font-size: 1rem;
+        padding: 0.75rem 1.25rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: #f80759;
+        color: white;
+        transition: background-color 0.2s;
+      }
+      .btn-pricing:hover {
+        background: #ff3366;
+      }
 
-		$data['page'] 		= "generate_bulanan";
-		$data['judul'] 		= "Data Generate Bulanan";
-		$data['deskripsi'] 	= "Manage Data Generate Bulanan";
+      .bg-primary-custom {
+        background-color: #93bcfe70;
+        color: #0b20ff;
+        height: 34px;
+      }
 
+      .bg-warning-custom {
+        background-color: rgba(251, 71, 71, 0.352);
+        color: rgb(254, 39, 39);
+        height: 34px;
+      }
 
-		$this->template->views('generate_bulanan/home', $data);
-	}
+      .bg-info-custom {
+        background-color: rgba(251, 71, 215, 0.352);
+        color: rgb(254, 39, 147);
+        height: 34px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container d-flex justify-content-center">
+      <ul class="nav nav-pills mb-3 gap-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="active btn btn-outline-primary"
+            id="pills-home-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-home"
+            type="button"
+            role="tab"
+            aria-controls="pills-home"
+            aria-selected="true"
+          >
+            Hosting Bisnis
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="btn btn-outline-danger"
+            id="pills-profile-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-profile"
+            type="button"
+            role="tab"
+            aria-controls="pills-profile"
+            aria-selected="false"
+          >
+            Cloud Hosting
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="container">
+      <div class="tab-content" id="pills-tabContent">
+        <!-- bisnis -->
+        <div
+          class="tab-pane fade show active"
+          id="pills-home"
+          role="tabpanel"
+          aria-labelledby="pills-home-tab"
+        >
+          <div class="container py-4">
+            <div
+              class="row row-cols-1 row-cols-md-3 gap-2 justify-content-center"
+            >
+              <!-- Basic Plan -->
+              <div class="col" style="max-width: 290px">
+                <div class="card pricing-card">
+                  <div
+                    style="max-height: 70px"
+                    class="card-header pricing-header text-center d-flex justify-content-center align-items-center"
+                  >
+                    <h4>Basic</h4>
+                  </div>
 
-	public function tampil() {
-		$data['userdata'] 	= $this->userdata;
-		$kd_satker 	= $data['userdata']->kd_satker;
-		$bulan = '';
-		$jenis = '';
-		$tahun = year_app($kd_satker);
-		if(isset($_POST['jenis'])){
-		    $jenis = $_POST['jenis'];
-		}
-		if(isset($_POST['bulan'])){
-		    $bulan = $_POST['bulan'];
-		}
-		$data['data_export_bulanan'] = $this->M_tb_export_bulanan->select_by_jenis($kd_satker,$tahun,$bulan,$jenis);
-		$this->load->view('generate_bulanan/list_data', $data);
-	}
+                  <div class="card-body">
+                    <div
+                      class="d-flex flex-column text-center justify-content-center align-items-center p-3"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <h5
+                          class="text-danger fw-normal text-decoration-line-through fs-6"
+                        >
+                          Rp14.000
+                        </h5>
+                        <h2
+                          class="badge rounded-pill bg-primary-custom d-flex align-items-center"
+                        >
+                          Best Offer
+                        </h2>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <h1
+                          class=" price text-primary m-1 fs-1"
+                          style=" "
+                        >
+                          Rp7.000
+                        </h1>
+                        <div class="term text-dark">/bulan</div>
+                      </div>
+                      <a
+                        href="https://member.hypercloudhost.com/store/hosting-bisnis/basic"
+                        class="btn btn-outline-primary form-control justify-content-center d-flex align-items-center"
+                        style="max-height: 40px"
+                        >Order Now</a
+                      >
+                      <span class="text-muted" style="font-size: 12px;">Rp7.000/bln saat perpanjang</span>
+                    </div>
+                    <h5 class="font-weight-bold">Fitur Unggulan</h5>
+                    <ul>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 1GB SSD Storage
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 10GB Bandwidth
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 10 SQL
+                        Databases
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 5 Akun Email
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Managed
+                        WordPress
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> SSL Gratis
+                        Unlimited
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 10 Sub Domains
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 2 Parked
+                        Domains
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 2 Addon
+                        Domains
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Shared IP
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Cloud Linux
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Softaculous
+                        Auto Installer
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Standard Plan -->
+              <div class="col" style="max-width: 290px">
+                <div class="card pricing-card">
+                  <div
+                    style="max-height: 70px"
+                    class="card-header pricing-best text-center d-flex justify-content-center align-items-center"
+                  >
+                    <h4>Standar</h4>
+                  </div>
 
-	public function lihat() {
-        $data = $this->input->post();
-        $this->session->set_flashdata('msg', show_succ_msg('Set Jenis Penghasilan Berhasil', '20px'));
-        redirect('GenerateBulanan?jenis='.$data['jenis'].'&bulan='.$data['bulan'].'&unit='.$data['unit_kerja'],'refresh');
-	}
+                  <div class="card-body">
+                    <div
+                      class="d-flex flex-column text-center justify-content-center align-items-center p-3"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <h5
+                          class="text-danger fw-normal text-decoration-line-through"
+                        >
+                          Rp25.000
+                        </h5>
+                        <h2
+                          class="badge rounded-pill bg-warning-custom d-flex align-items-center"
+                        >
+                          Best Seller
+                        </h2>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <h1
+                          class=" price text-primary m-1 fs-1"
+                          style=" "
+                        >
+                          Rp13.000
+                        </h1>
+                        <div class="term text-dark">/bulan</div>
+                      </div>
+                      <a
+                        href="https://member.hypercloudhost.com/store/hosting-bisnis/standar"
+                        class="btn btn-danger form-control justify-content-center d-flex align-items-center"
+                        style="max-height: 40px"
+                        >Order Now</a
+                      >
+                      <span class="text-muted" style="font-size: 12px;">Rp13.000/bln saat perpanjang</span>
+                    </div>
+                    <h5 class="font-weight-bold">Fitur Unggulan</h5>
+                    <ul>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 2GB SSD Storage
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 20GB Bandwidth
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited SQL
+                        Databases
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited Akun Email
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Managed
+                        WordPress
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> SSL Gratis
+                        Unlimited
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited Sub Domains
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited Parked
+                        Domains
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited Addon
+                        Domains
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Shared IP
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Cloud Linux
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Softaculous
+                        Auto Installer
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Free Domain
+                        .my.id (Min pembelian 1 tahun)
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Pro Plan -->
+              <div class="col" style="max-width: 290px">
+                <div class="card pricing-card">
+                  <div
+                    style="max-height: 70px"
+                    class="card-header pricing-header text-center d-flex justify-content-center align-items-center"
+                  >
+                    <h4>Profesional</h4>
+                  </div>
 
-	public function posting() {
-		$data['userdata'] 	= $this->userdata;
-		$kd_satker 	= $data['userdata']->kd_satker;
-		$tahun = year_app($kd_satker);
-		if(isset($_POST['jenis'])){
-		    $jenis = $_POST['jenis'];
-		}else{
-		    $this->session->set_flashdata('msg', show_succ_msg('Mohon Pilih Jenis Terlebih Dahulu', '20px'));
-		    redirect('GenerateBulanan','refresh');
-		}
-		if(isset($_POST['bulan'])){
-		    $bulan = $_POST['bulan'];
-		}else{
-		    $this->session->set_flashdata('msg', show_succ_msg('Mohon Pilih Bulan Terlebih Dahulu', '20px'));
-		    redirect('GenerateBulanan','refresh');
-		}
-		
-		if(isset($_POST['unit'])){
-		    $unit = $_POST['unit'];
-		}else{
-		    $this->session->set_flashdata('msg', show_succ_msg('Mohon Pilih Bulan Terlebih Dahulu', '20px'));
-		    redirect('GenerateBulanan','refresh');
-		}
-		
-		$result = $this->postingbulanan->generate($kd_satker,$tahun,$bulan,$jenis,$unit);    
-		
-		if ($result > 0) {
-			$this->session->set_flashdata('msg', show_succ_msg('Data Generate Bukti Potong Berhasil diupdate', '20px'));
-		} else {
-			$this->session->set_flashdata('msg', show_succ_msg('Data Generate Bukti Potong Gagal diupdate', '20px'));
-		}
+                  <div class="card-body">
+                    <div
+                      class="d-flex flex-column text-center justify-content-center align-items-center p-3"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <h5
+                          class="text-danger fw-normal text-decoration-line-through"
+                        >
+                          Rp45.000
+                        </h5>
+                        <h2
+                          class="badge rounded-pill bg-primary-custom d-flex align-items-center"
+                        >
+                          Most Wanted
+                        </h2>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <h1
+                          class=" price text-primary m-1 fs-1"
+                          style=" "
+                        >
+                          Rp22.000
+                        </h1>
+                        <div class="term text-dark">/bulan</div>
+                      </div>
+                      <a
+                        href="https://member.hypercloudhost.com/store/hosting-bisnis/profesional"
+                        class="btn btn-outline-primary form-control justify-content-center d-flex align-items-center"
+                        style="max-height: 40px"
+                        >Order Now</a
+                      >
+                      <span class="text-muted" style="font-size: 12px;">Rp22.000/bln saat perpanjang</span>
+                    </div>
+                    <h5 class="font-weight-bold">Fitur Unggulan</h5>
+                    <ul>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 4GB SSD Storage
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 40GB Bandwidth
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited SQL
+                        Databases
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited Akun Email
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Managed
+                        WordPress
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> SSL Gratis
+                        Unlimited
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited Sub Domains
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited Parked
+                        Domains
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited Addon
+                        Domains
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Shared IP
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Cloud Linux
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Softaculous
+                        Auto Installer
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Free Domain
+                        .my.id (Min pembelian 1 tahun)
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col" style="max-width: 290px">
+                <div class="card pricing-card">
+                  <div
+                    style="max-height: 70px"
+                    class="card-header pricing-premium text-center d-flex justify-content-center align-items-center"
+                  >
+                    <h4>Premium</h4>
+                  </div>
 
-		redirect('GenerateBulanan','refresh');
-	}
+                  <div class="card-body">
+                    <div
+                      class="d-flex flex-column text-center justify-content-center align-items-center p-3"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <h5
+                          class="text-danger fw-normal text-decoration-line-through"
+                        >
+                          Rp210.000
+                        </h5>
+                        <h2
+                          class="badge rounded-pill bg-info-custom d-flex align-items-center"
+                        >
+                          Most Popular
+                        </h2>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <h1
+                          class=" price text-primary m-1 fs-1"
+                          style=" "
+                        >
+                          Rp140.000
+                        </h1>
+                        <div class="term text-dark">/bulan</div>
+                      </div>
+                      <a
+                        href="https://member.hypercloudhost.com/store/hosting-bisnis/premium"
+                        class="btn btn-outline-primary form-control justify-content-center d-flex align-items-center"
+                        style="max-height: 40px"
+                        >Order Now</a
+                      >
+                      <span class="text-muted" style="font-size: 12px;">Rp140.000/bln saat perpanjang</span>
+                    </div>
+                    <h5 class="font-weight-bold">Fitur Unggulan</h5>
+                    <ul>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 300GB SSD Space
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Bandwidth
+                        Unlimited
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Max Database
+                        Unlimited
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> MAX Akun Email
+                        Unlimited
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Managed
+                        WordPress
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> SSL Gratis
+                        Unlimited
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Max addon domain
+                        Unlimited
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Max Subdomain
+                        Unlimited
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Shared IP
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Cloud Linux
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Softaculous
+                        Auto Installer
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Free Domain
+                        .my.id (Min pembelian 1 tahun)
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-}
+        <!-- cloud -->
+        <div
+          class="tab-pane fade"
+          id="pills-profile"
+          role="tabpanel"
+          aria-labelledby="pills-profile-tab"
+        >
+          <div class="container py-5">
+            <div
+              class="row row-cols-1 row-cols-md-3 gap-4 justify-content-center"
+            >
+              <!-- Basic Plan -->
+              <div class="col" style="max-width: 290px">
+                <div class="card pricing-card">
+                  <div
+                    style="max-height: 70px"
+                    class="card-header pricing-header text-center d-flex justify-content-center align-items-center"
+                  >
+                    <h4>Cloud Basic</h4>
+                  </div>
 
-/* End of file GenerateBulanan.php */
-/* Location: ./application/controllers/GenerateBulanan.php */
+                  <div class="card-body">
+                    <div
+                      class="d-flex flex-column text-center justify-content-center align-items-center p-3"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <h5
+                          class="text-danger fw-normal text-decoration-line-through"
+                        >
+                          Rp24.000
+                        </h5>
+                        <h2
+                          class="badge rounded-pill bg-primary-custom d-flex align-items-center"
+                        >
+                          Best Offer
+                        </h2>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <h1
+                          class=" price text-primary m-1 fs-1"
+                          style=" "
+                        >
+                          Rp13.000
+                        </h1>
+                        <div class="term text-dark">/bulan</div>
+                      </div>
+                      <a
+                        href="https://member.hypercloudhost.com/store/hosting-pelajar/basic"
+                        class="btn btn-outline-primary form-control justify-content-center d-flex align-items-center"
+                        style="max-height: 40px"
+                        >Order Now</a
+                      >
+                      <span class="text-muted" style="font-size: 12px;">Rp13.000/bln saat perpanjang</span>
+                    </div>
+                    <h5 class="font-weight-bold">Fitur Unggulan</h5>
+                    <ul>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 4 GHz CPU
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 4 GB Memory
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 1 GB SSD NVMe
+                        Storage
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Addon Domain
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Email Account
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        MySQL Database
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Bandwidth
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Gratis
+                        Unlimited SSL
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 200 Hourly
+                        Email
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Standard Plan -->
+              <div class="col" style="max-width: 290px">
+                <div class="card pricing-card">
+                  <div
+                    style="max-height: 70px"
+                    class="card-header pricing-best text-center d-flex justify-content-center align-items-center"
+                  >
+                    <h4>Cloud Standar</h4>
+                  </div>
+
+                  <div class="card-body">
+                    <div
+                      class="d-flex flex-column text-center justify-content-center align-items-center p-3"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <h5
+                          class="text-danger fw-normal text-decoration-line-through"
+                        >
+                          Rp72.000
+                        </h5>
+                        <h2
+                          class="badge rounded-pill bg-warning-custom d-flex align-items-center"
+                        >
+                          Best Seller
+                        </h2>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <h1
+                          class=" price text-primary m-1 fs-1"
+                          style=" "
+                        >
+                          Rp35.000
+                        </h1>
+                        <div class="term text-dark">/bulan</div>
+                      </div>
+                      <a
+                        href="https://member.hypercloudhost.com/store/hosting-pelajar/standar"
+                        class="btn btn-danger form-control justify-content-center d-flex align-items-center"
+                        style="max-height: 40px"
+                        >Order Now</a
+                      >
+                      <span class="text-muted" style="font-size: 12px;">Rp35.000/bln saat perpanjang</span>
+                    </div>
+                    <h5 class="font-weight-bold">Fitur Unggulan</h5>
+                    <ul>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 4 GHz CPU
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 4 GB Memory
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 3.5 GB SSD
+                        NVMe Storage
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Addon Domain
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Email Account
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        MySQL Database
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Bandwidth
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Gratis
+                        Unlimited SSL
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 200 Hourly
+                        Email
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Pro Plan -->
+              <div class="col" style="max-width: 290px">
+                <div class="card pricing-card">
+                  <div
+                    style="max-height: 70px"
+                    class="card-header pricing-header text-center d-flex justify-content-center align-items-center"
+                  >
+                    <h4>Cloud Profesional</h4>
+                  </div>
+
+                  <div class="card-body">
+                    <div
+                      class="d-flex flex-column text-center justify-content-center align-items-center p-3"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <h5
+                          class="text-danger fw-normal text-decoration-line-through"
+                        >
+                          Rp220.000
+                        </h5>
+                        <h2
+                          class="badge rounded-pill bg-primary-custom d-flex align-items-center"
+                        >
+                          Most Wanted
+                        </h2>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <h1
+                          class=" price text-primary m-1 fs-1"
+                          style=" "
+                        >
+                          Rp55.000
+                        </h1>
+                        <div class="term text-dark">/bulan</div>
+                      </div>
+                      <a
+                        href="https://member.hypercloudhost.com/store/hosting-pelajar/profesional"
+                        class="btn btn-outline-primary form-control justify-content-center d-flex align-items-center"
+                        style="max-height: 40px"
+                        >Order Now</a
+                      >
+                      <span class="text-muted" style="font-size: 12px;">Rp55.000/bln saat perpanjang</span>
+                    </div>
+                    <h5 class="font-weight-bold">Fitur Unggulan</h5>
+                    <ul>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 4 GHz CPU
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 4 GB Memory
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 5 GB SSD NVMe
+                        Storage
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Addon Domain
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Email Account
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        MySQL Database
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Bandwidth
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Gratis
+                        Unlimited SSL
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 200 Hourly
+                        Email
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Corporate -->
+              <div class="col" style="max-width: 290px">
+                <div class="card pricing-card">
+                  <div
+                    style="max-height: 70px"
+                    class="card-header pricing-header text-center d-flex justify-content-center align-items-center"
+                  >
+                    <h4>Cloud Corporate</h4>
+                  </div>
+
+                  <div class="card-body">
+                    <div
+                      class="d-flex flex-column text-center justify-content-center align-items-center p-3"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <h5
+                          class="text-danger fw-normal text-decoration-line-through"
+                        >
+                          Rp180.000
+                        </h5>
+                        <h2
+                          class="badge rounded-pill bg-primary-custom d-flex align-items-center"
+                        >
+                          Most super
+                        </h2>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <h1
+                          class=" price text-primary m-1 fs-1"
+                          style=" "
+                        >
+                          Rp110.000
+                        </h1>
+                        <div class="term text-dark">/bulan</div>
+                      </div>
+                      <a
+                        href="https://member.hypercloudhost.com/store/hosting-pelajar/profesional"
+                        class="btn btn-outline-primary form-control justify-content-center d-flex align-items-center"
+                        style="max-height: 40px"
+                        >Order Now</a
+                      >
+                      <span class="text-muted" style="font-size: 12px;">Rp110.000/bln saat perpanjang</span>
+                    </div>
+                    <h5 class="font-weight-bold">Fitur Unggulan</h5>
+                    <ul>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 4 GHz CPU
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 4 GB Memory
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 10 GB SSD NVMe
+                        Storage
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Addon Domain
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Email Account
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        MySQL Database
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Unlimited
+                        Bandwidth
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> Gratis
+                        Unlimited SSL
+                      </li>
+                      <li>
+                        <i class="fas fa-check text-success"></i> 200 Hourly
+                        Email
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
