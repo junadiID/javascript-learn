@@ -1,0 +1,24 @@
+<!-- 62 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar JS</title>
+  </head>
+  <body>
+    <button onclick="bukaWin()">Buka window</button>
+    <button onclick="tutupWIn()">Tutup window</button>
+    <script>
+      var myWindows;
+      function bukaWin() {
+        myWindows = window.open("", "Junadi Dev", "width=500,height=400");
+        myWindows.document.write("<p>Anda Berhasil membuka window</p>");
+      }
+
+      function tutupWIn() {
+        myWindows.close();
+      }
+    </script>
+  </body>
+</html>

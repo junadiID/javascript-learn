@@ -1,0 +1,58 @@
+<!-- 42 -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Belajar Javascript - NIOMIC</title>
+    <style>
+      .droptarget {
+        float: left;
+        width: 100px;
+        height: 35px;
+        margin: 15px;
+        padding: 10px;
+        border: 1px solid #aaaaaa;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Drag Element diantara dua Kotak</p>
+    <div class="droptarget" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <p
+        ondragstart="dragStart(event)"
+        ondrag="dragging(event)"
+        draggable="true"
+        id="dragtarget"
+      >
+        Drag Say!
+      </p>
+    </div>
+    <div
+      class="droptarget"
+      ondrop="drop(event)"
+      ondragover="allowDrop(event)"
+    ></div>
+    <p id="object_text"></p>
+    <script>
+      function dragStart(event) {
+        event.dataTransfer.setData("Text", event.target.id);
+      }
+      function dragging(event) {
+        document.getElementById("object_text").innerHTML =
+          "Element sedang di drag";
+      }
+
+      function allowDrop(event) {
+        event.preventDefault();
+      }
+
+      function drop(event) {
+        event.preventDefault;
+        var data = event.dataTransfer.getData("Text");
+        event.target.appendChild(document.getElementById(data));
+        document.getElementById("object_text").innerHTML =
+          "Element Sudah Didrag";
+      }
+    </script>
+  </body>
+</html>

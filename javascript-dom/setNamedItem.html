@@ -1,0 +1,29 @@
+<!-- 22 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar js</title>
+    <style>
+      .contohcss {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <br />
+    <button type="button" onclick="Tombol()" name="button">klik</button>
+    <br /><br />
+    <h1>Hello World</h1>
+    <script type="text/javascript">
+      function Tombol() {
+        var a = document.getElementsByTagName("h1")[0];
+        var b = document.createAttribute("class");
+        b.value = "contohcss";
+        a.attributes.setNamedItem(b);
+      }
+    </script>
+  </body>
+</html>

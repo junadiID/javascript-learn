@@ -1,0 +1,23 @@
+<!-- 41 -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Belajar Javascript - NIOMIC</title>
+  </head>
+  <body>
+    <input type="text" onpaste="paste_text()" value="Coba Kamu paste disini" />
+    <p id="object_text"></p>
+    <script>
+      function copy_text() {
+        document.getElementById("object_text").innerHTML =
+          "Kamu telah kopy texs nya!";
+      }
+
+      function paste_text() {
+        document.getElementById("object_text").innerHTML =
+          "Kamu telah paste Textnya";
+      }
+    </script>
+  </body>
+</html>

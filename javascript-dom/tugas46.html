@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar Js</title>
+  </head>
+  <body>
+    <p>Click untuk merubah warna.</p>
+    <button onclick="tugas46()">Ubah Warna</button>
+    <br /><br />
+    <script>
+      function tugas46() {
+        var nama = prompt(
+          "Masukan warna yang kamu inginkan (English)",
+          "Kode Warna"
+        );
+        if (nama != null) {
+          document.body.style.backgroundColor = nama;
+        }
+      }
+    </script>
+  </body>
+</html>

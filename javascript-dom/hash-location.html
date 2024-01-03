@@ -1,0 +1,28 @@
+<!-- 56 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar JS</title>
+  </head>
+  <body>
+    <br />
+    <p id="hash"></p>
+    <button onclick="hash_location()">Panggil Junadi</button>
+    <button onclick="hash_location2()">Panggil Junadi</button>
+    <script>
+      function hash_location() {
+        location.hash = "Junadi";
+        var x = "Sekarang anchornya " + location.hash;
+        document.getElementById("hash").innerHTML = x;
+      }
+
+      function hash_location2() {
+        location.hash = "Junadi2";
+        var x = "Sekarang anchornya " + location.hash;
+        document.getElementById("hash").innerHTML = x;
+      }
+    </script>
+  </body>
+</html>

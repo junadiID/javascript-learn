@@ -1,0 +1,21 @@
+<!-- 54 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar JS</title>
+  </head>
+  <body>
+    <h1>Tugas 44</h1>
+    <p>Jangan rubah yang ini</p>
+    <p>Ubah warna yang ini</p>
+    <button onclick="item_method()">Ubah warna</button>
+    <script>
+      function item_method() {
+        var x = document.getElementsByTagName("p");
+        x.item(1).style.color = "blue";
+      }
+    </script>
+  </body>
+</html>

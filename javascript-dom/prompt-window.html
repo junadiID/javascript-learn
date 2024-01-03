@@ -1,0 +1,24 @@
+<!-- 66 -->
+<!-- pungsinya untuk menyediakan jawaban alert kustom -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar Js</title>
+  </head>
+  <body>
+    <button onclick="jawab()">Klik saya</button>
+    <p id="jawaban"></p>
+    <br /><br />
+    <script>
+      function jawab() {
+        var nama = prompt("Masukan nama kamu?", "Nama");
+        if (nama != null) {
+          document.getElementById("jawaban").innerHTML =
+            "Hello " + nama + " apa kabar";
+        }
+      }
+    </script>
+  </body>
+</html>

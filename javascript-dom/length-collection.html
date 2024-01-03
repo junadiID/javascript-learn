@@ -1,0 +1,22 @@
+<!-- 54 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar JS</title>
+  </head>
+  <body>
+    <h1>Belajar HTML Collection item() method()</h1>
+    <p>Paragraf Pertama</p>
+    <p>Paragraf Kedua</p>
+    <p>Paragraf Tiga</p>
+    <button onclick="item_method()">Tombol Alert</button>
+    <script>
+      function item_method() {
+        var x = document.getElementsByTagName("p");
+        for (var i = 0; i < x.length; i++) alert(x.item(i).innerHTML);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!-- 48 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar - JS</title>
+  </head>
+  <body>
+    <p>Clik tombol ini untuk mendapatkan kordinat</p>
+    <button onclick="getLocation()">Coba dapatkan posisi</button>
+    <p id="lokasi"></p>
+
+    <script type="text/javascript">
+      var x = document.getElementById("lokasi");
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(tunjukaPosisi);
+        } else {
+          x.innerHTML = "Geolocations tidak mensupport browser anda";
+        }
+      }
+
+      function tunjukaPosisi(position) {
+        x.innerHTML =
+          "Latitude : " +
+          position.coords.latitude +
+          "<br>Longtitude : " +
+          position.coords.longitude;
+      }
+    </script>
+  </body>
+</html>

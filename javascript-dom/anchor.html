@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Js</title>
+  </head>
+  <body>
+    <a href="#" name="sukabumi"> Kab sukabumi</a>
+    <a href="#" name="Jawa"> Jawa</a>
+    <a href="#" name="bogor"> Kab Bogor</a>
+    <a href="#" name="bandung"> Kab Bandung</a>
+    <a href="#" name="cianjur"> Kab cianjur</a>
+
+    <p id="contoh">Contoh</p>
+    <button onclick="Tombol()">Klik</button>
+    <script type="text/javascript">
+      function Tombol() {
+        var a = document.anchors.length;
+        document.getElementById("contoh").innerHTML = a;
+      }
+    </script>
+  </body>
+</html>

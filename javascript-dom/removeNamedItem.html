@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar js</title>
+  </head>
+  <body>
+    <br />
+    <button type="button" onclick="Tombol()" name="button">klik</button>
+    <br /><br />
+    <input type="button" value="Siap" />
+    <script type="text/javascript">
+      function Tombol() {
+        var a = document.getElementsByTagName("input")[0];
+        var b = a.attributes.removeNamedItem("value");
+        var b = a.attributes.removeNamedItem("type");
+      }
+    </script>
+  </body>
+</html>

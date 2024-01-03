@@ -1,0 +1,24 @@
+<!-- 46 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar - JS</title>
+  </head>
+  <body>
+    <p onmouseover="zoomin(this)" onmouseout="zoomout(this)">
+      Dekatkan Mouse ke tulisan ini
+    </p>
+
+    <script type="text/javascript">
+      function zoomin(x) {
+        x.style.fontSize = "20pt";
+      }
+
+      function zoomout(x) {
+        x.style.fontSize = "12pt";
+      }
+    </script>
+  </body>
+</html>

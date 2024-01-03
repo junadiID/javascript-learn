@@ -1,0 +1,20 @@
+<!-- 45 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar - JS</title>
+  </head>
+  <body>
+    <p>Texbox akan berubah saat dilakukan keyevent</p>
+    Ini keypres : <input type="text" onkeypress="ubah_textbox(this)" /> <br />
+    Ini keydown : <input type="text" onkeydown="ubah_textbox(this)" /> <br />
+    Ini keyup : <input type="text" onkeyup="ubah_textbox(this)" />
+    <script type="text/javascript">
+      function ubah_textbox(x) {
+        x.style.background = "yellow";
+      }
+    </script>
+  </body>
+</html>
