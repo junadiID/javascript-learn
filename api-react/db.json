@@ -1,0 +1,34 @@
+{
+  "posts": [
+    {
+      "id": "1708068225948",
+      "title": "teshsfwrw",
+      "body": "hai ini ajysf"
+    },
+    {
+      "id": "1708068227301",
+      "title": "teshsfwrwrw",
+      "body": "hai ini ajysf"
+    },
+    {
+      "id": "1708068228502",
+      "title": "ini baru dirubah",
+      "body": "iya aku rubah"
+    },
+    {
+      "id": "1708071186644",
+      "title": "ini jadi dirubah",
+      "body": "sfss"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": null
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
